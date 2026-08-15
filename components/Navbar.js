@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -12,10 +13,28 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  function handleNavClick(e, href) {
+    // Strip any hash to compare just the page path
+    const targetPath = href.split("#")[0] || "/";
+
+    if (targetPath === pathname) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setOpen(false);
+    } else {
+      setOpen(false);
+    }
+  }
 
   return (
     <header className="fixed top-0 z-50 flex w-full items-center justify-between px-6 py-6 md:px-12 lg:px-20">
-      <Link href="/" className="font-mono text-sm font-bold tracking-tight text-ink">
+      <Link
+        href="/"
+        onClick={(e) => handleNavClick(e, "/")}
+        className="font-mono text-sm font-bold tracking-tight text-ink"
+      >
         Edu Demayo Nitre
       </Link>
 
@@ -25,6 +44,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
               className="rounded-full px-4 py-2 font-mono text-sm text-ink-soft transition-colors hover:bg-white/5 hover:text-ink"
             >
               {link.label}
@@ -34,6 +54,7 @@ export default function Navbar() {
 
         <Link
           href="/contact"
+          onClick={(e) => handleNavClick(e, "/contact")}
           className="rounded-full bg-accent px-5 py-2.5 font-mono text-sm font-medium text-bg transition-transform hover:-translate-y-0.5"
         >
           Send a Message
@@ -50,13 +71,13 @@ export default function Navbar() {
           <ul className="flex flex-col gap-4">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="font-mono text-sm text-ink-soft" onClick={() => setOpen(false)}>
+                <Link href={link.href} className="font-mono text-sm text-ink-soft" onClick={(e) => handleNavClick(e, link.href)}>
                   {link.label}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href="/contact" className="font-mono text-sm text-accent" onClick={() => setOpen(false)}>
+              <Link href="/contact" className="font-mono text-sm text-accent" onClick={(e) => handleNavClick(e, "/contact")}>
                 Send a Message
               </Link>
             </li>

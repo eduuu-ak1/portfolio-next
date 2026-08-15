@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import RingedPlanet from "./RingedPlanet";
 import PlanetScene from "./PlanetScene";
 import Footer from "./Footer";
@@ -259,12 +260,12 @@ export default function AboutContent() {
               happen.
             </span>
           </h2>
-          <a
-            href="mailto:edunitre24@gmail.com"
+          <Link
+            href="/contact"
             className="mt-8 inline-block rounded-full bg-accent px-7 py-3 font-mono text-sm font-medium text-bg transition-transform hover:-translate-y-0.5"
           >
             Get In Touch
-          </a>
+          </Link>
         </div>
       </motion.section>
 
