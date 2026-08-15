@@ -1,93 +1,75 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-export default function StarField({ count = 120 }) {
-  const canvasRef = useRef(null);
+function generateStars(count) {
+  return Array.from({ length: count }, (_, i) => {
+    const isBright = Math.random() < 0.15; // ~15% brighter stars
+    const isBlueTint = Math.random() < 0.12; // rare faint blue tint
+
+    return {
+      id: i,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      size: isBright ? 2 + Math.random() * 1 : 1 + Math.random() * 1,
+      baseOpacity: isBright ? 0.7 + Math.random() * 0.3 : 0.3 + Math.random() * 0.2,
+      duration: 2 + Math.random() * 3, // 2s - 5s
+      delay: Math.random() * 5,
+      isBright,
+      color: isBlueTint ? "#cfe3ea" : "#ffffff",
+    };
+  });
+}
+
+export default function Starfield() {
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    let width, height, stars, frameId;
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-
-    function initStars() {
-      stars = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        radius: Math.random() * 1.6 + 0.5,
-        phase: Math.random() * Math.PI * 2,
-        speed: 0.12 + Math.random() * 0.35,
-      }));
-    }
-
-    function draw(time) {
-      ctx.clearRect(0, 0, width, height);
-      const t = time / 1000;
-
-      stars.forEach((star) => {
-        const twinkle = (Math.sin(t * star.speed + star.phase) + 1) / 2;
-        const opacity = 0.15 + twinkle * 0.75;
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(242, 241, 245, ${opacity})`;
-        ctx.fill();
-      });
-
-      if (!prefersReducedMotion) {
-        frameId = requestAnimationFrame(draw);
-      }
-    }
-
-    function drawStatic() {
-      ctx.clearRect(0, 0, width, height);
-      stars.forEach((star) => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(242, 241, 245, 0.4)";
-        ctx.fill();
-      });
-    }
-
-    function start() {
-      resize();
-      initStars();
-      if (prefersReducedMotion) {
-        drawStatic();
-      } else {
-        frameId = requestAnimationFrame(draw);
-      }
-    }
+    setMounted(true);
+    setIsMobile(window.innerWidth < 640);
 
     function handleResize() {
-      resize();
-      initStars();
-      if (prefersReducedMotion) drawStatic();
+      setIsMobile(window.innerWidth < 640);
     }
-
     window.addEventListener("resize", handleResize);
-    start();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      if (frameId) cancelAnimationFrame(frameId);
-    };
-  }, [count]);
+  const stars = useMemo(() => {
+    const count = isMobile ? 90 : 170;
+    return generateStars(count);
+  }, [isMobile]);
+
+  if (!mounted) return null;
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none fixed inset-0 -z-10 h-screen w-screen"
+    <div
+      className="pointer-events-none fixed inset-0 -z-10 h-screen w-screen overflow-hidden bg-bg"
       aria-hidden="true"
-    />
+    >
+      <div className="starfield-layer absolute inset-0">
+        {stars.map((star) => (
+          <span
+            key={star.id}
+            className="star-dot"
+            style={{
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              backgroundColor: star.color,
+              animationDuration: `${star.duration}s`,
+              animationDelay: `${star.delay}s`,
+              "--star-min-opacity": star.baseOpacity * 0.5,
+              "--star-max-opacity": star.baseOpacity,
+              boxShadow: star.isBright
+                ? `0 0 4px 1px rgba(255, 255, 255, 0.6)`
+                : "none",
+            }}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

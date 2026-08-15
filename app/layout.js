@@ -1,7 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
-import StarField from "@/components/StarField";
+import Starfield from "@/components/StarField";
 
 export const metadata = {
   title: "Edu Demayo Nitre — Web Developer & Builder",
@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-screen bg-bg text-ink antialiased">
-        <StarField />
+        <Starfield />
         <SmoothScroll>
           <Navbar />
           {children}

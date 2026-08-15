@@ -20,7 +20,7 @@ function GlowOrb({ scale = 1 }) {
       <mesh>
         <sphereGeometry args={[1.15, 32, 32]} />
         <meshBasicMaterial
-          color="#8B7CF6"
+          color="#3D7A8C"
           transparent
           opacity={0.1}
           side={THREE.BackSide}
@@ -31,7 +31,7 @@ function GlowOrb({ scale = 1 }) {
       <mesh>
         <icosahedronGeometry args={[0.9, 1]} />
         <meshBasicMaterial
-          color="#8B7CF6"
+          color="#3D7A8C"
           wireframe
           transparent
           opacity={0.7}
@@ -60,7 +60,7 @@ export default function ContactOrb({ scale = 1 }) {
     <Canvas camera={{ position: [0, 0, 4], fov: 45 }} dpr={[1, 1.5]}>
       <Suspense fallback={null}>
         <ambientLight intensity={0.5} />
-        <pointLight position={[2, 2, 2]} intensity={1} color="#8B7CF6" />
+        <pointLight position={[2, 2, 2]} intensity={1} color="#3D7A8C" />
         <GlowOrb scale={scale} />
       </Suspense>
     </Canvas>

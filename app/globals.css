@@ -5,8 +5,8 @@
   --bg-alt: #18181B;
   --ink: #FFFFFF;
   --ink-soft: rgba(255, 255, 255, 0.7);
-  --accent: #8B7CF6;
-  --accent-soft: rgba(139, 124, 246, 0.15);
+  --accent: #3D7A8C;
+  --accent-soft: rgba(61, 122, 140, 0.18);
   --line: rgba(255, 255, 255, 0.1);
 }
 
@@ -107,5 +107,39 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .planet-sphere {
     animation: none;
+  }
+}
+
+/* ---------- Starfield (pure CSS, no WebGL) ---------- */
+@keyframes star-twinkle {
+  0%, 100% { opacity: var(--star-min-opacity, 0.3); transform: scale(1); }
+  50% { opacity: var(--star-max-opacity, 1); transform: scale(1.15); }
+}
+
+@keyframes starfield-drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-40px, -30px); }
+}
+
+.starfield-layer {
+  animation: starfield-drift 140s linear infinite alternate;
+}
+
+.star-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: #ffffff;
+  animation-name: star-twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starfield-layer {
+    animation: none;
+  }
+  .star-dot {
+    animation: none;
+    opacity: 0.6;
   }
 }

@@ -33,7 +33,7 @@ export default function ShinyStar() {
       <Suspense fallback={null}>
         <ambientLight intensity={0.3} />
         <directionalLight position={[3, 3, 4]} intensity={1.2} color="#F2F1F5" />
-        <directionalLight position={[-4, -2, -3]} intensity={0.7} color="#8B7CF6" />
+        <directionalLight position={[-4, -2, -3]} intensity={0.7} color="#3D7A8C" />
         <Environment preset="studio" />
         <Star />
       </Suspense>

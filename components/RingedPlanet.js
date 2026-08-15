@@ -19,7 +19,7 @@ function Planet() {
       <mesh>
         <sphereGeometry args={[1.35, 32, 32]} />
         <meshBasicMaterial
-          color="#8B7CF6"
+          color="#3D7A8C"
           transparent
           opacity={0.08}
           side={THREE.BackSide}
@@ -40,7 +40,7 @@ function Planet() {
       <mesh>
         <sphereGeometry args={[1.01, 64, 64]} />
         <meshBasicMaterial
-          color="#8B7CF6"
+          color="#3D7A8C"
           transparent
           opacity={0.06}
           side={THREE.BackSide}
@@ -51,7 +51,7 @@ function Planet() {
       <mesh rotation={[THREE.MathUtils.degToRad(75), 0, THREE.MathUtils.degToRad(20)]}>
         <torusGeometry args={[1.7, 0.03, 8, 100]} />
         <meshStandardMaterial
-          color="#8B7CF6"
+          color="#3D7A8C"
           metalness={0.7}
           roughness={0.3}
           transparent
@@ -76,7 +76,7 @@ export default function RingedPlanet() {
       <Suspense fallback={null}>
         <ambientLight intensity={0.4} />
         <directionalLight position={[3, 3, 4]} intensity={1.2} color="#FFFFFF" />
-        <directionalLight position={[-4, -2, -3]} intensity={0.5} color="#8B7CF6" />
+        <directionalLight position={[-4, -2, -3]} intensity={0.5} color="#3D7A8C" />
         <Planet />
       </Suspense>
     </Canvas>
