@@ -1,31 +1,33 @@
 "use client";
 
 import { useEffect } from "react";
+import Lenis from "lenis";
 
 export default function SmoothScroll({ children }) {
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
     if (prefersReducedMotion) return;
 
-    let lenis;
-    let rafId;
-
-    import("lenis").then(({ default: Lenis }) => {
-      lenis = new Lenis({
-        duration: 1.1,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      });
-
-      function raf(time) {
-        lenis.raf(time);
-        rafId = requestAnimationFrame(raf);
-      }
-      rafId = requestAnimationFrame(raf);
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
 
+    window.__lenis = lenis;
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      if (lenis) lenis.destroy();
+      window.__lenis = null;
+      lenis.destroy();
     };
   }, []);
 

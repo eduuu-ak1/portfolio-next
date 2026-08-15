@@ -25,7 +25,7 @@ export default function Skills() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
       variants={fadeUp}
-      className="flex min-h-screen flex-col items-center justify-center px-6 md:px-12 lg:px-20 py-24 text-center"
+      className="flex min-h-screen scroll-mt-24 flex-col items-center justify-center px-6 md:px-12 lg:px-20 py-24 text-center"
     >
       <p className="mb-2 font-mono text-sm uppercase tracking-widest text-ink-soft">
         My Skillset

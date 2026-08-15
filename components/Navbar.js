@@ -1,31 +1,104 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/#projects", label: "Projects" },
-  { href: "/#skills", label: "Skills" },
+  { href: "/", label: "Home", key: "home" },
+  { href: "/about", label: "About", key: "about" },
+  { href: "/#projects", label: "Projects", key: "projects" },
+  { href: "/#skills", label: "Skills", key: "skills" },
 ];
+
+const NAVBAR_OFFSET = -96;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [activeKey, setActiveKey] = useState("home");
   const pathname = usePathname();
 
-  function handleNavClick(e, href) {
-    // Strip any hash to compare just the page path
-    const targetPath = href.split("#")[0] || "/";
-
-    if (targetPath === pathname) {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setOpen(false);
-    } else {
-      setOpen(false);
+  // Keep active state in sync with the current route for page-based links
+  useEffect(() => {
+    if (pathname === "/about") {
+      setActiveKey("about");
+    } else if (pathname === "/contact") {
+      setActiveKey("contact");
+    } else if (pathname === "/") {
+      setActiveKey((prev) => (prev === "about" || prev === "contact" ? "home" : prev));
     }
+  }, [pathname]);
+
+  // Track which homepage section is in view
+  useEffect(() => {
+    if (pathname !== "/") return undefined;
+
+    const sectionKeys = ["hero", "projects", "skills"];
+    const elements = sectionKeys
+      .map((id) => ({ id, el: document.getElementById(id) }))
+      .filter((s) => s.el);
+
+    if (elements.length === 0) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const key = entry.target.id === "hero" ? "home" : entry.target.id;
+            setActiveKey(key);
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+    );
+
+    elements.forEach(({ el }) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  function scrollToTop() {
+    if (typeof window !== "undefined" && window.__lenis) {
+      window.__lenis.scrollTo(0, { duration: 1 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  function scrollToHash(hash) {
+    const target = document.querySelector(hash);
+    if (!target) return;
+
+    if (typeof window !== "undefined" && window.__lenis) {
+      window.__lenis.scrollTo(target, { offset: NAVBAR_OFFSET, duration: 1.2 });
+    } else {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function handleNavClick(e, href) {
+    const [path, hash] = href.split("#");
+    const targetPath = path || "/";
+
+    setOpen(false);
+
+    if (hash) {
+      // Anchor link (Projects / Skills)
+      if (pathname === targetPath) {
+        // Already on the homepage: scroll directly, never jump to top first
+        e.preventDefault();
+        scrollToHash(`#${hash}`);
+      }
+      // If on a different page, let Link navigate normally to "/#hash"
+      return;
+    }
+
+    // Plain page link (Home / About)
+    if (pathname === targetPath) {
+      e.preventDefault();
+      scrollToTop();
+    }
+    // Otherwise let Link navigate normally
   }
 
   return (
@@ -45,7 +118,11 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
-              className="rounded-full px-4 py-2 font-mono text-sm text-ink-soft transition-colors hover:bg-white/5 hover:text-ink"
+              className={`rounded-full px-4 py-2 font-mono text-sm transition-colors ${
+                activeKey === link.key
+                  ? "bg-white/10 text-ink"
+                  : "text-ink-soft hover:bg-white/5 hover:text-ink"
+              }`}
             >
               {link.label}
             </Link>
@@ -71,13 +148,17 @@ export default function Navbar() {
           <ul className="flex flex-col gap-4">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="font-mono text-sm text-ink-soft" onClick={(e) => handleNavClick(e, link.href)}>
+                <Link
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`font-mono text-sm ${activeKey === link.key ? "text-accent" : "text-ink-soft"}`}
+                >
                   {link.label}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href="/contact" className="font-mono text-sm text-accent" onClick={(e) => handleNavClick(e, "/contact")}>
+              <Link href="/contact" onClick={(e) => handleNavClick(e, "/contact")} className="font-mono text-sm text-accent">
                 Send a Message
               </Link>
             </li>
