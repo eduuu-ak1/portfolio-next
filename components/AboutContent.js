@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import RingedPlanet from "./RingedPlanet";
+import Moon from "./Moon";
 import PlanetScene from "./PlanetScene";
 import Footer from "./Footer";
 
@@ -247,7 +247,7 @@ export default function AboutContent() {
         className="relative flex min-h-screen flex-col justify-center border-t border-line px-6 md:px-12 lg:px-20 py-24"
       >
         <div className="pointer-events-none absolute right-0 top-1/2 h-56 w-56 -translate-y-1/2 opacity-80 md:h-72 md:w-72">
-          <RingedPlanet />
+          <Moon />
         </div>
 
         <div className="relative max-w-lg">
