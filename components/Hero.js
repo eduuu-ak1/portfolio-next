@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import WarpText from "./WarpText";
 
 const container = {
@@ -119,12 +120,12 @@ export default function Hero() {
         >
           View Projects
         </a>
-        <a
-          href="#contact"
+        <Link
+          href="/contact"
           className="rounded-full border border-line px-7 py-3 font-mono text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent"
         >
           Contact Me
-        </a>
+        </Link>
       </motion.div>
     </section>
   );

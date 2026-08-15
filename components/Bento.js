@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -132,12 +133,12 @@ export default function Bento() {
             <em className="italic text-accent">something real.</em>
           </h3>
 
-          <a
-            href="#contact"
+          <Link
+            href="/contact"
             className="w-fit rounded-full bg-accent px-6 py-3 font-mono text-sm font-medium text-bg transition-transform hover:-translate-y-0.5"
           >
             Connect Now &rarr;
-          </a>
+          </Link>
         </div>
       </div>
     </motion.section>
