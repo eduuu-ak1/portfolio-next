@@ -1,26 +1,111 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #000000;
+  --bg-alt: #18181B;
+  --ink: #FFFFFF;
+  --ink-soft: rgba(255, 255, 255, 0.7);
+  --accent: #8B7CF6;
+  --accent-soft: rgba(139, 124, 246, 0.15);
+  --line: rgba(255, 255, 255, 0.1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-line: var(--line);
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-serif: "Playfair Display", serif;
+  --font-hand: "Caveat", cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ---------- 3D rotating cube ---------- */
+.cube-scene {
+  perspective: 800px;
+}
+
+.cube {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: cube-spin 10s linear infinite;
+}
+
+.cube-face {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border: 1px solid var(--accent);
+  background: linear-gradient(135deg, var(--bg-alt), var(--bg));
+  opacity: 0.92;
+}
+
+.cube-face-front { transform: translateZ(45px); }
+.cube-face-back { transform: rotateY(180deg) translateZ(45px); }
+.cube-face-right { transform: rotateY(90deg) translateZ(45px); }
+.cube-face-left { transform: rotateY(-90deg) translateZ(45px); }
+.cube-face-top { transform: rotateX(90deg) translateZ(45px); }
+.cube-face-bottom { transform: rotateX(-90deg) translateZ(45px); }
+
+@keyframes cube-spin {
+  from { transform: rotateX(0deg) rotateY(0deg); }
+  to { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cube {
+    animation: none;
+  }
+}
+
+/* ---------- Skills planet ---------- */
+.skills-orbit-scene {
+  perspective: 1000px;
+}
+
+.planet-sphere {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160px;
+  height: 160px;
+  margin: -80px 0 0 -80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, var(--accent-soft), var(--bg-alt) 55%, #000 100%);
+  box-shadow: inset -20px -20px 40px rgba(0, 0, 0, 0.55), 0 0 60px var(--accent-soft);
+  animation: planet-drift 6s ease-in-out infinite;
+}
+
+@keyframes planet-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planet-sphere {
+    animation: none;
+  }
 }
