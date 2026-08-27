@@ -108,7 +108,7 @@ export default function Navbar() {
         onClick={(e) => handleNavClick(e, "/")}
         className="font-mono text-sm font-bold tracking-tight text-ink"
       >
-        Edu Demayo Nitre
+        Edu Nitre
       </Link>
 
       <div className="hidden items-center gap-3 md:flex">

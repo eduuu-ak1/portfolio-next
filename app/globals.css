@@ -1,28 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #000000;
-  --bg-alt: #18181B;
-  --ink: #FFFFFF;
-  --ink-soft: rgba(255, 255, 255, 0.7);
-  --accent: #3D7A8C;
-  --accent-soft: rgba(61, 122, 140, 0.18);
-  --line: rgba(255, 255, 255, 0.1);
+  --bg: #0B0D12;
+  --bg-alt: #151920;
+  --bg-alt-2: #1B2029;
+  --ink: #EDEFF3;
+  --ink-soft: #838A99;
+  --ink-faint: #5B6170;
+  --accent: #FF6A3D;
+  --accent-soft: rgba(255, 106, 61, 0.14);
+  --wire: #45E0B8;
+  --wire-soft: rgba(69, 224, 184, 0.14);
+  --line: #262C38;
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-alt: var(--bg-alt);
+  --color-bg-alt-2: var(--bg-alt-2);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-wire: var(--wire);
+  --color-wire-soft: var(--wire-soft);
   --color-line: var(--line);
-  --font-display: "Space Grotesk", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
-  --font-serif: "Playfair Display", serif;
-  --font-hand: "Caveat", cursive;
+  --font-display: "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
+  --font-body: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
 }
 
 * {
@@ -34,6 +40,10 @@ body {
   color: var(--ink);
   font-family: var(--font-body);
   line-height: 1.6;
+  background-image:
+    radial-gradient(ellipse 900px 500px at 12% -10%, rgba(255, 106, 61, 0.07), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 15%, rgba(69, 224, 184, 0.05), transparent 60%);
+  background-attachment: fixed;
 }
 
 ::selection {
@@ -41,105 +51,55 @@ body {
   color: var(--bg);
 }
 
-/* ---------- 3D rotating cube ---------- */
-.cube-scene {
-  perspective: 800px;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
-.cube {
-  width: 90px;
-  height: 90px;
+/* ---------- wire connector rule ---------- */
+.wire-rule {
   position: relative;
-  transform-style: preserve-3d;
-  animation: cube-spin 10s linear infinite;
+  border-top: 1px solid var(--line);
 }
 
-.cube-face {
+.wire-rule::before {
+  content: "";
   position: absolute;
-  width: 90px;
-  height: 90px;
-  border: 1px solid var(--accent);
-  background: linear-gradient(135deg, var(--bg-alt), var(--bg));
-  opacity: 0.92;
+  top: -1px;
+  left: 0;
+  width: 34px;
+  height: 1px;
+  background: var(--wire);
 }
 
-.cube-face-front { transform: translateZ(45px); }
-.cube-face-back { transform: rotateY(180deg) translateZ(45px); }
-.cube-face-right { transform: rotateY(90deg) translateZ(45px); }
-.cube-face-left { transform: rotateY(-90deg) translateZ(45px); }
-.cube-face-top { transform: rotateX(90deg) translateZ(45px); }
-.cube-face-bottom { transform: rotateX(-90deg) translateZ(45px); }
-
-@keyframes cube-spin {
-  from { transform: rotateX(0deg) rotateY(0deg); }
-  to { transform: rotateX(360deg) rotateY(360deg); }
+.wire-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .cube {
-    animation: none;
-  }
-}
-
-/* ---------- Skills planet ---------- */
-.skills-orbit-scene {
-  perspective: 1000px;
-}
-
-.planet-sphere {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 160px;
-  height: 160px;
-  margin: -80px 0 0 -80px;
+.wire-node::before {
+  content: "";
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: radial-gradient(circle at 32% 28%, var(--accent-soft), var(--bg-alt) 55%, #000 100%);
-  box-shadow: inset -20px -20px 40px rgba(0, 0, 0, 0.55), 0 0 60px var(--accent-soft);
-  animation: planet-drift 6s ease-in-out infinite;
+  background: var(--wire);
+  flex-shrink: 0;
 }
 
-@keyframes planet-drift {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .planet-sphere {
-    animation: none;
-  }
-}
-
-/* ---------- Starfield (pure CSS, no WebGL) ---------- */
-@keyframes star-twinkle {
-  0%, 100% { opacity: var(--star-min-opacity, 0.3); transform: scale(1); }
-  50% { opacity: var(--star-max-opacity, 1); transform: scale(1.15); }
-}
-
-@keyframes starfield-drift {
-  from { transform: translate(0, 0); }
-  to { transform: translate(-40px, -30px); }
-}
-
-.starfield-layer {
-  animation: starfield-drift 140s linear infinite alternate;
-}
-
-.star-dot {
-  position: absolute;
+.signal-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: #ffffff;
-  animation-name: star-twinkle;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
+  background: var(--accent);
+  box-shadow: 0 0 10px 1px rgba(255, 106, 61, 0.6);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .starfield-layer {
-    animation: none;
-  }
-  .star-dot {
-    animation: none;
-    opacity: 0.6;
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

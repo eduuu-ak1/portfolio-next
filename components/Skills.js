@@ -1,11 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import SkillsCenterpiece from "./SkillsCenterpiece";
 
-const ALL_SKILLS = [
-  "React.js", "Node.js", "JavaScript", "HTML/CSS", "n8n",
-  "Google Gemini", "Claude AI", "Godot Engine", "GDScript", "Docker",
+const SKILL_GROUPS = [
+  {
+    label: "Automation",
+    note: "The layer that replaces the manual work",
+    skills: ["n8n", "Webhook APIs & Integrations", "Workflow Design", "Cal.com / CRM Automation"],
+  },
+  {
+    label: "AI Integration",
+    note: "What actually reads, decides, and replies",
+    skills: ["Google Gemini API", "Anthropic API", "AI Agents", "OpenAI"],
+  },
+  {
+    label: "Full-Stack Delivery",
+    note: "For the dashboard or UI wrapped around it",
+    skills: ["React / Next.js", "Node.js / Express"],
+  },
 ];
 
 const fadeUp = {
@@ -17,6 +29,11 @@ const fadeUp = {
   },
 };
 
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
 export default function Skills() {
   return (
     <motion.section
@@ -25,38 +42,48 @@ export default function Skills() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
       variants={fadeUp}
-      className="flex min-h-screen scroll-mt-24 flex-col items-center justify-center px-6 md:px-12 lg:px-20 py-24 text-center"
+      className="wire-rule scroll-mt-24 px-6 py-24 md:px-12 lg:px-20"
     >
-      <p className="mb-2 font-mono text-sm uppercase tracking-widest text-ink-soft">
-        My Skillset
+      <p className="wire-node mb-3 font-mono text-xs uppercase tracking-[0.2em] text-wire">
+        What I bring
       </p>
-      <h2 className="mb-4 font-display text-4xl font-bold md:text-6xl">
-        The Magic <span className="text-ink-soft">Behind</span>
+      <h2 className="max-w-xl font-display text-3xl font-semibold md:text-5xl" style={{ textWrap: "balance" }}>
+        The stack behind it.
       </h2>
 
-      <div className="mx-auto h-[500px] w-[500px] max-w-full md:h-[600px] md:w-[600px]">
-        <SkillsCenterpiece />
-      </div>
-
-      <p className="mb-6 mt-4 font-mono text-sm uppercase tracking-widest text-ink-soft">
-        The Tools I Use
-      </p>
-
-      <div className="mx-auto flex max-w-2xl flex-wrap justify-center gap-3">
-        {ALL_SKILLS.map((skill) => (
-          <span
-            key={skill}
-            className="rounded-full border border-line bg-bg-alt px-4 py-2 font-mono text-sm text-ink-soft transition-colors hover:border-accent hover:text-accent"
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3"
+      >
+        {SKILL_GROUPS.map((group) => (
+          <motion.div
+            key={group.label}
+            variants={fadeUp}
+            className="flex flex-col gap-6 bg-bg-alt p-8"
           >
-            {skill}
-          </span>
-        ))}
-      </div>
+            <div>
+              <h3 className="font-display text-sm font-semibold uppercase tracking-widest text-accent">
+                {group.label}
+              </h3>
+              <p className="mt-1.5 text-sm text-ink-soft">{group.note}</p>
+            </div>
 
-      <p className="mx-auto mt-6 max-w-xl font-mono text-xs text-ink-soft">
-        Also: Data Entry &amp; Document Management, Video Editing, Graphic
-        Design, UI/UX Design
-      </p>
+            <ul className="flex flex-col gap-3">
+              {group.skills.map((skill) => (
+                <li
+                  key={skill}
+                  className="font-mono text-sm text-ink border-t border-line pt-3 first:border-t-0 first:pt-0"
+                >
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        ))}
+      </motion.div>
     </motion.section>
   );
 }

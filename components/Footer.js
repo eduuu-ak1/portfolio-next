@@ -5,10 +5,10 @@ export default function Footer() {
     <footer className="border-t border-line">
       <div className="w-full px-6 md:px-12 lg:px-20 py-14 md:flex md:items-start md:justify-between md:gap-10">
         <div className="mb-10 max-w-sm md:mb-0">
-          <p className="font-serif text-3xl italic text-ink">Edu</p>
+          <p className="font-display text-xl font-semibold text-ink">Edu Nitre</p>
           <p className="mt-3 text-base text-ink-soft">
-            Building things that work, one project at a time &mdash;
-            automations, web apps, and games, made to actually be useful.
+            AI automation and full-stack systems for small and service-based
+            businesses &mdash; built to run without you watching them.
           </p>
         </div>
 
@@ -38,19 +38,18 @@ export default function Footer() {
 
           <div>
             <p className="mb-3 font-mono text-sm uppercase tracking-widest text-ink-soft">
-              Social
+              Elsewhere
             </p>
             <ul className="flex flex-col gap-2 font-mono text-sm text-ink-soft">
               <li><a href="https://www.linkedin.com/in/edu-demayo-nitre-314478360/" target="_blank" rel="noopener noreferrer" className="hover:text-accent">LinkedIn</a></li>
-              <li><a href="https://www.facebook.com/edu.nitre.35" target="_blank" rel="noopener noreferrer" className="hover:text-accent">Facebook</a></li>
-              <li><a href="https://www.instagram.com/_godedu/" target="_blank" rel="noopener noreferrer" className="hover:text-accent">Instagram</a></li>
+              <li><a href="https://github.com/eduuu-ak1" target="_blank" rel="noopener noreferrer" className="hover:text-accent">GitHub</a></li>
             </ul>
           </div>
         </div>
       </div>
 
       <p className="border-t border-line px-6 md:px-12 lg:px-20 py-5 text-center font-mono text-xs text-ink-soft">
-        &copy; 2026 Edu Demayo Nitre. Built from scratch.
+        &copy; 2026 Edu Nitre. Built from scratch.
       </p>
     </footer>
   );

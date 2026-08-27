@@ -1,9 +1,9 @@
 import AboutContent from "../../components/AboutContent";
 
 export const metadata = {
-  title: "About — Edu Demayo Nitre",
+  title: "About — Edu Nitre",
   description:
-    "About Edu Demayo Nitre — BSIT graduate, game developer, and web developer from General Santos City, Philippines.",
+    "About Edu Nitre — AI automation and full-stack developer for small and service-based businesses, based in General Santos City, Philippines.",
 };
 
 export default function AboutPage() {

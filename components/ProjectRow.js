@@ -1,20 +1,17 @@
 "use client";
 
-import { useId } from "react";
 import { motion } from "framer-motion";
 
 export default function ProjectRow({
+  index,
   title,
-  description,
-  techStack,
-  images,
+  problem,
+  bullets,
+  tools,
+  image,
   projectUrl,
   reverse = false,
 }) {
-  const pathId = useId();
-  const frontImage = images?.[0];
-  const backImage = images?.[1] || images?.[0];
-
   const textVariants = {
     hidden: { opacity: 0, x: reverse ? 20 : -20 },
     visible: {
@@ -25,17 +22,21 @@ export default function ProjectRow({
   };
 
   const imageVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
+    hidden: { opacity: 0, scale: 0.97 },
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 },
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.12 },
     },
   };
 
   return (
-    <div className="border-t border-white/5 py-24 md:py-32">
-      <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-[1fr_1.2fr] md:gap-16">
+    <div className="wire-rule py-20 md:py-28">
+      <p className="mb-10 font-mono text-xs uppercase tracking-[0.15em] text-ink-faint">
+        {index}
+      </p>
+
+      <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-[1fr_1.15fr] md:gap-16">
         {/* Text column */}
         <motion.div
           initial="hidden"
@@ -44,17 +45,27 @@ export default function ProjectRow({
           variants={textVariants}
           className={reverse ? "md:order-2" : "md:order-1"}
         >
-          <h3 className="mb-4 font-serif text-4xl italic text-ink">
+          <h3 className="mb-4 font-display text-2xl font-semibold leading-tight text-ink md:text-3xl" style={{ textWrap: "balance" }}>
             {title}
           </h3>
-          <p className="mb-6 max-w-md text-white/60">{description}</p>
+          <p className="mb-6 max-w-md text-ink-soft">{problem}</p>
+
+          <ul className="mb-7 flex flex-col gap-2.5">
+            {bullets.map((bullet) => (
+              <li key={bullet} className="flex gap-3 text-sm text-ink-soft">
+                <span className="mt-1.75 h-1 w-1 shrink-0 rounded-full bg-wire" />
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </ul>
+
           <div className="flex flex-wrap gap-2">
-            {techStack.map((tech) => (
+            {tools.map((tool) => (
               <span
-                key={tech}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-xs text-ink-soft"
+                key={tool}
+                className="rounded-full border border-line bg-bg-alt px-3 py-1 font-mono text-xs text-ink-soft"
               >
-                {tech}
+                {tool}
               </span>
             ))}
           </div>
@@ -68,75 +79,28 @@ export default function ProjectRow({
           variants={imageVariants}
           className={`relative ${reverse ? "md:order-1" : "md:order-2"}`}
         >
-          <div className="relative aspect-video w-full">
-            {/* Back card */}
-            {backImage && (
-              <img
-                src={backImage}
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 h-full w-full -translate-x-8 -translate-y-4 rounded-2xl border border-white/10 object-cover opacity-50 shadow-xl"
-              />
-            )}
-
-            {/* Front card */}
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-line bg-bg-alt shadow-2xl">
             <img
-              src={frontImage}
-              alt={title}
-              className="absolute inset-0 h-full w-full rounded-2xl border border-white/10 object-cover shadow-2xl"
+              src={image}
+              alt={`${title} — screenshot`}
+              className="h-full w-full object-cover"
             />
-
-            {/* Rotating "visit project" button */}
-            {projectUrl && (
-              <a
-                href={projectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Visit ${title}`}
-                className="absolute -right-6 -top-6 h-28 w-28 md:h-32 md:w-32"
-              >
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0"
-                >
-                  <svg viewBox="0 0 100 100" className="h-full w-full">
-                    <defs>
-                      <path
-                        id={pathId}
-                        d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
-                        fill="none"
-                      />
-                    </defs>
-                    <text
-                      fontSize="7.5"
-                      className="fill-ink font-mono uppercase tracking-wider"
-                    >
-                      <textPath href={`#${pathId}`}>
-                        Visit Project &bull; Visit Project &bull;{" "}
-                      </textPath>
-                    </text>
-                  </svg>
-                </motion.div>
-
-                <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-full bg-accent text-bg">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <line x1="7" y1="17" x2="17" y2="7" />
-                    <polyline points="7 7 17 7 17 17" />
-                  </svg>
-                </div>
-              </a>
-            )}
           </div>
+
+          {projectUrl && (
+            <a
+              href={projectUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wide text-wire transition-colors hover:text-accent"
+            >
+              View workflow
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </a>
+          )}
         </motion.div>
       </div>
     </div>

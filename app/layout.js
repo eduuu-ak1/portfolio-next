@@ -1,12 +1,11 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
-import Starfield from "@/components/StarField";
 
 export const metadata = {
-  title: "Edu Demayo Nitre — Web Developer & Builder",
+  title: "Edu Nitre — AI Automation for Small Business",
   description:
-    "Edu Demayo Nitre — web developer building AI-powered automations, full-stack apps, and games.",
+    "Edu Nitre replaces manual busywork with AI automation for small and service-based businesses — n8n workflows, AI agents, and the full-stack systems around them.",
 };
 
 export default function RootLayout({ children }) {
@@ -14,13 +13,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital@1&family=Caveat:wght@600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
       <body className="min-h-screen bg-bg text-ink antialiased">
-        <Starfield />
         <SmoothScroll>
           <Navbar />
           {children}

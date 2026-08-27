@@ -5,40 +5,40 @@ import ProjectRow from "./ProjectRow";
 
 const PROJECTS = [
   {
-    title: "Notely",
-    description:
-      "Upload a video or PDF (up to 200MB), and Gemini AI reads or watches it, then generates structured notes: headings by topic, bullet takeaways, definitions, warnings/tips, action items, and a summary.",
-    techStack: ["React + Vite", "Node.js / Express", "Google Gemini API", "Docker"],
-    images: ["/projects/notely.png"],
-    projectUrl: "https://notely-edu.vercel.app/",
+    title: "Cutting Support Response Time From Hours to Seconds",
+    problem:
+      "Every inbound email and web inquiry needed a human to read it, decide what it was, and answer — even the easy ones.",
+    bullets: [
+      "Built an n8n pipeline that reads every Gmail and contact-form message and classifies it Simple or Complex with an AI agent",
+      "Simple requests get an accurate reply within seconds, no human touch required",
+      "Complex cases escalate straight to the owner with a structured intake already filled in",
+    ],
+    tools: ["n8n", "Gmail API", "OpenAI", "AI Agents"],
+    image: "/projects/email-support-automation.png",
   },
   {
-    title: "Tower of Knowledge",
-    description:
-      "A 2D platformer built in Godot Engine that teaches ICT fundamentals through hands-on, level-based challenges. Built end-to-end solo: mechanics, level design, UI, and content. A Top 5 Capstone Project.",
-    techStack: ["Godot Engine", "GDScript", "2D Game Design"],
-    images: ["/projects/tower-of-knowledge.gif"],
+    title: "Turning Cold Leads Into Booked Calls, Unattended",
+    problem:
+      "Leads were qualified by hand and booked over email back-and-forth — the slower that took, the more leads went cold.",
+    bullets: [
+      "n8n workflow captures every incoming lead the moment it arrives and runs it through automated qualification rules",
+      "Qualified leads book straight into the calendar through Cal.com, no scheduling emails",
+      "Cuts a multi-step manual intake process down to one pipeline that runs itself",
+    ],
+    tools: ["n8n", "Webhook APIs", "Cal.com", "CRM Automation"],
+    image: "/projects/lead-qualification-automation.png",
   },
   {
-    title: "Lead Qualification & Booking Automation",
-    description:
-      "An n8n workflow that captures incoming leads, qualifies them automatically, and books them directly into a calendar via Cal.com, removing manual back-and-forth from the intake process.",
-    techStack: ["n8n", "Webhook APIs", "CRM Automation"],
-    images: ["/projects/lead-qualification-automation.png"],
-  },
-  {
-    title: "AI Customer Support Automation",
-    description:
-      "Monitors incoming email and contact form submissions, uses AI to classify inquiries as Simple or Complex, auto-replies to simple ones, and escalates complex cases to the business owner with a structured intake form.",
-    techStack: ["n8n", "Gmail", "OpenAI", "AI Agents"],
-    images: ["/projects/email-support-automation.png"],
-  },
-  {
-    title: "Follow-Up Sequence Automation",
-    description:
-      "An automated follow-up messaging sequence that keeps leads and clients engaged after first contact, triggered and tracked without manual intervention.",
-    techStack: ["n8n", "Workflow Automation", "Google Sheets"],
-    images: ["/projects/followup-automation.png"],
+    title: "Keeping Leads Warm When Nobody's Watching the Pipeline",
+    problem:
+      "Follow-up only happened if someone remembered to send it — most leads never got a second touch.",
+    bullets: [
+      "Built a multi-step follow-up sequence that triggers automatically on first contact",
+      "Tracks every lead's timing and engagement in Google Sheets, no spreadsheet upkeep required",
+      "Runs on schedule with zero manual intervention, so no lead goes quiet by accident",
+    ],
+    tools: ["n8n", "Google Sheets", "Workflow Automation"],
+    image: "/projects/followup-automation.png",
   },
 ];
 
@@ -59,9 +59,9 @@ export default function Projects() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
-        className="mb-2 font-mono text-sm uppercase tracking-widest text-accent"
+        className="wire-node mb-3 font-mono text-xs uppercase tracking-[0.2em] text-wire"
       >
-        &gt; Featured Work
+        Selected automation work
       </motion.p>
 
       <motion.h2
@@ -69,14 +69,20 @@ export default function Projects() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
-        className="mb-4 font-display text-4xl font-bold md:text-6xl"
+        className="max-w-2xl font-display text-3xl font-semibold md:text-5xl"
+        style={{ textWrap: "balance" }}
       >
-        Projects
+        Built to run without me.
       </motion.h2>
 
-      <div>
+      <div className="mt-4">
         {PROJECTS.map((project, i) => (
-          <ProjectRow key={project.title} {...project} reverse={i % 2 === 1} />
+          <ProjectRow
+            key={project.title}
+            index={`0${i + 1} / 0${PROJECTS.length}`}
+            {...project}
+            reverse={i % 2 === 1}
+          />
         ))}
       </div>
     </section>

@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ContactOrb from "../../components/ContactOrb";
+import Footer from "../../components/Footer";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -28,14 +28,9 @@ function validate(form) {
 }
 
 export default function ContactPage() {
-  const formSectionRef = useRef(null);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [fieldErrors, setFieldErrors] = useState({});
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
-
-  function scrollToForm() {
-    formSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -91,62 +86,34 @@ export default function ContactPage() {
 
   return (
     <main>
-      {/* SECTION A: Hero intro */}
-      <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 md:px-12 lg:px-20 py-24">
-        <div className="grid w-full grid-cols-1 items-center gap-10 md:grid-cols-2">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="text-center md:text-left"
+      <section className="flex min-h-[70vh] flex-col justify-center px-6 md:px-12 lg:px-20 py-32">
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="max-w-2xl">
+          <p className="wire-node mb-4 font-mono text-xs uppercase tracking-[0.2em] text-wire">
+            Get in touch
+          </p>
+          <h1
+            className="font-display text-[clamp(2rem,5vw,3.4rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-ink"
+            style={{ textWrap: "balance" }}
           >
-            <h1 className="mb-3 font-display text-4xl font-bold md:text-6xl">
-              Have a project in mind?
-            </h1>
-            <p className="mb-10 font-serif text-3xl italic text-ink-soft md:text-4xl">
-              Let&apos;s talk about it.
-            </p>
-
-            <motion.button
-              type="button"
-              onClick={scrollToForm}
-              aria-label="Scroll to contact form"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent text-bg shadow-lg transition-transform hover:scale-110 md:mx-0"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
-            </motion.button>
-          </motion.div>
-
-          <div className="mx-auto h-[320px] w-[320px] md:h-[380px] md:w-[380px]">
-            <ContactOrb />
-          </div>
-        </div>
+            What&apos;s still being done by hand?
+          </h1>
+          <p className="mt-5 max-w-md text-lg text-ink-soft">
+            Tell me what it is and where it slows things down &mdash; I&apos;ll
+            reply with whether it&apos;s worth automating and what that would
+            take.
+          </p>
+        </motion.div>
       </section>
 
-      {/* SECTION B: Contact form */}
-      <section
-        ref={formSectionRef}
-        className="flex min-h-screen flex-col items-center justify-center border-t border-line px-6 md:px-12 lg:px-20 py-24"
-      >
+      <section className="wire-rule flex flex-col items-center px-6 md:px-12 lg:px-20 py-24">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeUp}
-          className="mx-auto w-full max-w-lg text-center"
+          className="mx-auto w-full max-w-lg"
         >
-          <h2 className="mb-3 font-display text-4xl font-bold text-white">
-            Send me a message
-          </h2>
-          <p className="mb-10 text-white/50">
-            Have a question or want to work together? Drop me a message!
-          </p>
-
-          <form onSubmit={handleSubmit} className="text-left" noValidate>
+          <form onSubmit={handleSubmit} noValidate>
             <div className="mb-5">
               <label htmlFor="name" className="mb-2 block font-mono text-xs uppercase tracking-wide text-ink-soft">
                 Name *
@@ -158,7 +125,7 @@ export default function ContactPage() {
                 value={form.name}
                 onChange={handleChange}
                 placeholder="Your name"
-                className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 text-white placeholder-white/30 transition-colors focus:border-accent focus:outline-none"
+                className="w-full rounded-lg border border-line bg-bg-alt px-4 py-3 text-ink placeholder-ink-faint transition-colors focus:border-accent focus:outline-none"
               />
               {fieldErrors.name && (
                 <p className="mt-1.5 text-xs text-red-400">{fieldErrors.name}</p>
@@ -176,7 +143,7 @@ export default function ContactPage() {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="your@email.com"
-                className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 text-white placeholder-white/30 transition-colors focus:border-accent focus:outline-none"
+                className="w-full rounded-lg border border-line bg-bg-alt px-4 py-3 text-ink placeholder-ink-faint transition-colors focus:border-accent focus:outline-none"
               />
               {fieldErrors.email && (
                 <p className="mt-1.5 text-xs text-red-400">{fieldErrors.email}</p>
@@ -194,7 +161,7 @@ export default function ContactPage() {
                 value={form.message}
                 onChange={handleChange}
                 placeholder="What would you like to discuss?"
-                className="w-full resize-none rounded-lg border border-white/10 bg-black/40 px-4 py-3 text-white placeholder-white/30 transition-colors focus:border-accent focus:outline-none"
+                className="w-full resize-none rounded-lg border border-line bg-bg-alt px-4 py-3 text-ink placeholder-ink-faint transition-colors focus:border-accent focus:outline-none"
               />
               {fieldErrors.message && (
                 <p className="mt-1.5 text-xs text-red-400">{fieldErrors.message}</p>
@@ -204,7 +171,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="w-full rounded-full bg-white px-6 py-3.5 font-mono text-sm font-semibold text-black transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-full bg-accent px-6 py-3.5 font-mono text-sm font-semibold text-bg transition-colors hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {status === "sending" ? "Sending..." : "Send Message"}
             </button>
@@ -217,7 +184,7 @@ export default function ContactPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.4 }}
-                  className="mt-4 flex items-center justify-center gap-2 text-sm text-green-400"
+                  className="mt-4 flex items-center justify-center gap-2 text-sm text-wire"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
@@ -240,111 +207,17 @@ export default function ContactPage() {
             </AnimatePresence>
           </form>
 
-          <div className="mt-10 flex justify-center gap-2">
-            <a
-              href="https://www.linkedin.com/in/edu-demayo-nitre-314478360/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-line font-mono text-xs text-ink-soft transition-colors hover:border-accent hover:text-accent"
-            >
-              in
-            </a>
-            <a
-              href="https://www.facebook.com/edu.nitre.35"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-line font-mono text-xs text-ink-soft transition-colors hover:border-accent hover:text-accent"
-            >
-              fb
-            </a>
-            <a
-              href="https://www.instagram.com/_godedu/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-line font-mono text-xs text-ink-soft transition-colors hover:border-accent hover:text-accent"
-            >
-              ig
-            </a>
+          <div className="mt-10 flex justify-center gap-4 font-mono text-xs uppercase tracking-wide text-ink-soft">
+            <a href="mailto:edunitre24@gmail.com" className="hover:text-accent">Email</a>
+            <span className="text-line">/</span>
+            <a href="https://www.linkedin.com/in/edu-demayo-nitre-314478360/" target="_blank" rel="noopener noreferrer" className="hover:text-accent">LinkedIn</a>
+            <span className="text-line">/</span>
+            <a href="https://github.com/eduuu-ak1" target="_blank" rel="noopener noreferrer" className="hover:text-accent">GitHub</a>
           </div>
         </motion.div>
       </section>
 
-      {/* SECTION C: Closing */}
-      <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={fadeUp}
-        className="relative border-t border-line px-6 md:px-12 lg:px-20 py-24"
-      >
-        <div className="relative mb-16 flex items-center gap-4">
-          <img
-            src="/profile.png"
-            alt="Edu Demayo Nitre"
-            className="h-14 w-14 rounded-full border border-line object-cover"
-          />
-          <h2 className="font-display text-4xl font-bold md:text-6xl">
-            Let&apos;s create
-            <br />
-            <span className="font-serif italic font-normal text-ink-soft">
-              something real.
-            </span>
-          </h2>
-
-          <div className="pointer-events-none absolute -right-4 -top-16 hidden h-40 w-40 opacity-70 md:block">
-            <ContactOrb scale={0.75} />
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-bg-alt/60 p-8 backdrop-blur-md md:flex md:items-start md:justify-between md:gap-10">
-          <div className="mb-10 max-w-sm md:mb-0">
-            <p className="font-serif text-3xl italic text-ink">Edu</p>
-            <p className="mt-3 text-sm text-ink-soft">
-              Building things that work, one project at a time &mdash;
-              automations, web apps, and games, made to actually be useful.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-            <div>
-              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-ink-soft">
-                General
-              </p>
-              <ul className="flex flex-col gap-2 font-mono text-sm text-ink-soft">
-                <li><a href="/" className="hover:text-accent">Home</a></li>
-                <li><a href="/#projects" className="hover:text-accent">Projects</a></li>
-                <li><a href="/#skills" className="hover:text-accent">Skills</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-ink-soft">
-                About
-              </p>
-              <ul className="flex flex-col gap-2 font-mono text-sm text-ink-soft">
-                <li><a href="/about" className="hover:text-accent">About Me</a></li>
-                <li><a href="/contact" className="hover:text-accent">Contact</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-ink-soft">
-                Legal
-              </p>
-              <ul className="flex flex-col gap-2 font-mono text-sm text-ink-soft">
-                <li><span className="text-ink-soft/60">Terms &amp; Conditions</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <p className="mt-8 text-center font-mono text-xs text-ink-soft">
-          &copy; 2026 Edu Demayo Nitre. Built from scratch.
-        </p>
-      </motion.section>
+      <Footer />
     </main>
   );
 }
