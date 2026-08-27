@@ -1,13 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const WIRE_COLOR = "#6B6B6B";
-const SIGNAL_COLOR = "#000000";
+const COLORS = {
+  light: { wire: "#6B6B6B", signal: "#000000" },
+  dark: { wire: "#8A8A8A", signal: "#FFFFFF" },
+};
+
 const ROTATE_SPEED = 0.045;
 const PULSE_SPEED = 0.25;
+const POINTER_TILT = 0.35;
+const POINTER_EASE = 0.06;
 
 const NODES = [
   { pos: [-1.9, 0.6, 0], hot: false },
@@ -47,20 +52,56 @@ function usePrefersReducedMotion() {
   return reducedRef;
 }
 
-function Nodes() {
+function readTheme() {
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
+
+function useTheme() {
+  const [theme, setTheme] = useState(readTheme);
+
+  useEffect(() => {
+    const handleThemeChange = () => setTheme(readTheme());
+    window.addEventListener("themechange", handleThemeChange);
+    return () => window.removeEventListener("themechange", handleThemeChange);
+  }, []);
+
+  return theme;
+}
+
+function usePointerTarget(reducedRef) {
+  const targetRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (reducedRef.current) return undefined;
+
+    function handlePointerMove(e) {
+      targetRef.current = {
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: (e.clientY / window.innerHeight) * 2 - 1,
+      };
+    }
+
+    window.addEventListener("pointermove", handlePointerMove);
+    return () => window.removeEventListener("pointermove", handlePointerMove);
+  }, [reducedRef]);
+
+  return targetRef;
+}
+
+function Nodes({ colors }) {
   return (
     <>
       {NODES.map((node, i) => (
         <mesh key={i} position={node.pos}>
           <sphereGeometry args={[node.hot ? 0.09 : 0.065, 16, 16]} />
-          <meshBasicMaterial color={node.hot ? SIGNAL_COLOR : WIRE_COLOR} />
+          <meshBasicMaterial color={node.hot ? colors.signal : colors.wire} />
         </mesh>
       ))}
     </>
   );
 }
 
-function Edges() {
+function Edges({ colors }) {
   const geometries = useMemo(
     () =>
       EDGES.map(([a, b]) => {
@@ -77,14 +118,14 @@ function Edges() {
     <>
       {geometries.map((geometry, i) => (
         <line key={i} geometry={geometry}>
-          <lineBasicMaterial color={WIRE_COLOR} transparent opacity={0.5} />
+          <lineBasicMaterial color={colors.wire} transparent opacity={0.5} />
         </line>
       ))}
     </>
   );
 }
 
-function Pulses({ reducedRef }) {
+function Pulses({ colors, reducedRef }) {
   const refs = useRef([]);
   const progress = useRef(PULSE_EDGES.map((_, i) => i * 0.5));
 
@@ -112,39 +153,51 @@ function Pulses({ reducedRef }) {
       {PULSE_EDGES.map((_, i) => (
         <mesh key={i} ref={(el) => (refs.current[i] = el)}>
           <sphereGeometry args={[0.045, 12, 12]} />
-          <meshBasicMaterial color={SIGNAL_COLOR} />
+          <meshBasicMaterial color={colors.signal} />
         </mesh>
       ))}
     </>
   );
 }
 
-function Scene() {
+function Scene({ colors }) {
   const groupRef = useRef(null);
   const reducedRef = usePrefersReducedMotion();
+  const pointerTarget = usePointerTarget(reducedRef);
 
   useFrame((_state, delta) => {
     if (reducedRef.current || !groupRef.current) return;
+
     groupRef.current.rotation.y += delta * ROTATE_SPEED;
+
+    const targetTiltX = pointerTarget.current.y * POINTER_TILT;
+    const targetTiltZ = -pointerTarget.current.x * POINTER_TILT;
+    groupRef.current.rotation.x +=
+      (targetTiltX - groupRef.current.rotation.x) * POINTER_EASE;
+    groupRef.current.rotation.z +=
+      (targetTiltZ - groupRef.current.rotation.z) * POINTER_EASE;
   });
 
   return (
     <group ref={groupRef}>
-      <Nodes />
-      <Edges />
-      <Pulses reducedRef={reducedRef} />
+      <Nodes colors={colors} />
+      <Edges colors={colors} />
+      <Pulses colors={colors} reducedRef={reducedRef} />
     </group>
   );
 }
 
 export default function AutomationGraph() {
+  const theme = useTheme();
+  const colors = COLORS[theme];
+
   return (
     <Canvas
       camera={{ position: [0, 0, 5.5], fov: 45 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
     >
-      <Scene />
+      <Scene colors={colors} />
     </Canvas>
   );
 }

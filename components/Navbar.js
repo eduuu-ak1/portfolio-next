@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 const NAV_LINKS = [
   { href: "/", label: "Home", key: "home" },
@@ -120,8 +121,8 @@ export default function Navbar() {
               onClick={(e) => handleNavClick(e, link.href)}
               className={`rounded-full px-4 py-2 font-mono text-sm transition-colors ${
                 activeKey === link.key
-                  ? "bg-white/10 text-ink"
-                  : "text-ink-soft hover:bg-white/5 hover:text-ink"
+                  ? "bg-ink/10 text-ink"
+                  : "text-ink-soft hover:bg-ink/5 hover:text-ink"
               }`}
             >
               {link.label}
@@ -136,12 +137,17 @@ export default function Navbar() {
         >
           Send a Message
         </Link>
+
+        <ThemeToggle />
       </div>
 
-      <button type="button" aria-label="Toggle menu" className="flex flex-col gap-1.5 md:hidden" onClick={() => setOpen((v) => !v)}>
-        <span className="h-0.5 w-6 bg-ink" />
-        <span className="h-0.5 w-6 bg-ink" />
-      </button>
+      <div className="flex items-center gap-2 md:hidden">
+        <ThemeToggle />
+        <button type="button" aria-label="Toggle menu" className="flex flex-col gap-1.5" onClick={() => setOpen((v) => !v)}>
+          <span className="h-0.5 w-6 bg-ink" />
+          <span className="h-0.5 w-6 bg-ink" />
+        </button>
+      </div>
 
       {open && (
         <div className="absolute left-0 right-0 top-full border-t border-line bg-bg/95 px-6 py-4 backdrop-blur-md md:hidden">
