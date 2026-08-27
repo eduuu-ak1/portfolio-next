@@ -1,19 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0A0E27;
-  --bg-alt: #141826;
-  --bg-alt-2: #1B2130;
-  --ink: #EDEFF3;
-  --ink-soft: #8890A0;
-  --ink-faint: #565D6D;
-  --accent: #E8622C;
-  --accent-tint: #F29C7A;
-  --accent-soft: rgba(232, 98, 44, 0.14);
-  --wire: #2FBF9F;
-  --wire-tint: #82F2D9;
-  --wire-soft: rgba(47, 191, 159, 0.14);
-  --line: #242A3A;
+  --bg: #FAFAFA;
+  --bg-alt: #F0F0F0;
+  --bg-alt-2: #E4E4E4;
+  --ink: #111111;
+  --ink-soft: #545454;
+  --ink-faint: #767676;
+  --accent: #000000;
+  --accent-soft: rgba(0, 0, 0, 0.06);
+  --wire: #6B6B6B;
+  --wire-soft: rgba(0, 0, 0, 0.05);
+  --line: #D6D6D6;
 }
 
 @theme inline {
@@ -24,10 +22,8 @@
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
   --color-accent: var(--accent);
-  --color-accent-tint: var(--accent-tint);
   --color-accent-soft: var(--accent-soft);
   --color-wire: var(--wire);
-  --color-wire-tint: var(--wire-tint);
   --color-wire-soft: var(--wire-soft);
   --color-line: var(--line);
   --font-display: "JetBrains Mono", "SFMono-Regular", ui-monospace, monospace;
@@ -44,19 +40,15 @@ body {
   color: var(--ink);
   font-family: var(--font-body);
   line-height: 1.6;
-  background-image:
-    radial-gradient(ellipse 900px 500px at 12% -10%, rgba(232, 98, 44, 0.07), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 100% 15%, rgba(47, 191, 159, 0.06), transparent 60%);
-  background-attachment: fixed;
 }
 
 ::selection {
-  background: var(--accent);
+  background: var(--ink);
   color: var(--bg);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
 
@@ -73,7 +65,7 @@ body {
   left: 0;
   width: 34px;
   height: 1px;
-  background: var(--wire);
+  background: var(--ink);
 }
 
 .wire-node {
@@ -97,7 +89,6 @@ body {
   height: 7px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 10px 1px rgba(232, 98, 44, 0.6);
 }
 
 @media (prefers-reduced-motion: reduce) {

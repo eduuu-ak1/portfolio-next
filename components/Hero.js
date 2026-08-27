@@ -39,7 +39,7 @@ export default function Hero() {
         <motion.div initial="hidden" animate="visible" variants={container}>
           <motion.p
             variants={fadeUp}
-            className="wire-node mb-8 font-mono text-xs uppercase tracking-[0.2em] text-ink-soft"
+            className="wire-node mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-faint"
           >
             Edu Nitre &mdash; AI Automation &amp; Full-Stack Systems
           </motion.p>
@@ -50,8 +50,10 @@ export default function Hero() {
             style={{ textWrap: "balance" }}
           >
             Replacing manual busywork with{" "}
-            <span className="text-accent">AI automation</span> for small and
-            service-based businesses
+            <span className="bg-ink px-1.5 py-0.5 text-bg">
+              AI automation
+            </span>{" "}
+            for small and service-based businesses
           </motion.h1>
 
           <motion.p
@@ -72,7 +74,7 @@ export default function Hero() {
             </a>
             <Link
               href="/contact"
-              className="rounded-full border border-line px-7 py-3 font-mono text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent"
+              className="rounded-full border border-ink px-7 py-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-bg"
             >
               Book a workflow audit
             </Link>
@@ -89,15 +91,6 @@ export default function Hero() {
           <AutomationGraphCanvas />
         </motion.div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.8 }}
-        className="wire-node absolute bottom-14 left-6 hidden font-mono text-xs uppercase tracking-[0.15em] text-ink-faint md:flex md:left-12 lg:left-20"
-      >
-        General Santos City, PH &mdash; available for contract work
-      </motion.div>
     </section>
   );
 }

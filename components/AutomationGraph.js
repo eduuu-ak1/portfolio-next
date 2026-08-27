@@ -4,8 +4,8 @@ import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const WIRE_COLOR = "#2FBF9F";
-const SIGNAL_COLOR = "#E8622C";
+const WIRE_COLOR = "#6B6B6B";
+const SIGNAL_COLOR = "#000000";
 const ROTATE_SPEED = 0.045;
 const PULSE_SPEED = 0.25;
 
@@ -77,7 +77,7 @@ function Edges() {
     <>
       {geometries.map((geometry, i) => (
         <line key={i} geometry={geometry}>
-          <lineBasicMaterial color={WIRE_COLOR} transparent opacity={0.35} />
+          <lineBasicMaterial color={WIRE_COLOR} transparent opacity={0.5} />
         </line>
       ))}
     </>

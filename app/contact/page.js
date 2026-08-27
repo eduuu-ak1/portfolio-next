@@ -125,10 +125,10 @@ export default function ContactPage() {
                 value={form.name}
                 onChange={handleChange}
                 placeholder="Your name"
-                className="w-full rounded-lg border border-line bg-bg-alt px-4 py-3 text-ink placeholder-ink-faint transition-colors focus:border-accent focus:outline-none"
+                className={`w-full rounded-lg border bg-bg-alt px-4 py-3 text-ink placeholder-ink-faint transition-colors focus:border-accent focus:outline-none ${fieldErrors.name ? "border-ink" : "border-line"}`}
               />
               {fieldErrors.name && (
-                <p className="mt-1.5 text-xs text-red-400">{fieldErrors.name}</p>
+                <p className="mt-1.5 text-xs font-semibold text-ink">{fieldErrors.name}</p>
               )}
             </div>
 
@@ -143,10 +143,10 @@ export default function ContactPage() {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="your@email.com"
-                className="w-full rounded-lg border border-line bg-bg-alt px-4 py-3 text-ink placeholder-ink-faint transition-colors focus:border-accent focus:outline-none"
+                className={`w-full rounded-lg border bg-bg-alt px-4 py-3 text-ink placeholder-ink-faint transition-colors focus:border-accent focus:outline-none ${fieldErrors.email ? "border-ink" : "border-line"}`}
               />
               {fieldErrors.email && (
-                <p className="mt-1.5 text-xs text-red-400">{fieldErrors.email}</p>
+                <p className="mt-1.5 text-xs font-semibold text-ink">{fieldErrors.email}</p>
               )}
             </div>
 
@@ -161,10 +161,10 @@ export default function ContactPage() {
                 value={form.message}
                 onChange={handleChange}
                 placeholder="What would you like to discuss?"
-                className="w-full resize-none rounded-lg border border-line bg-bg-alt px-4 py-3 text-ink placeholder-ink-faint transition-colors focus:border-accent focus:outline-none"
+                className={`w-full resize-none rounded-lg border bg-bg-alt px-4 py-3 text-ink placeholder-ink-faint transition-colors focus:border-accent focus:outline-none ${fieldErrors.message ? "border-ink" : "border-line"}`}
               />
               {fieldErrors.message && (
-                <p className="mt-1.5 text-xs text-red-400">{fieldErrors.message}</p>
+                <p className="mt-1.5 text-xs font-semibold text-ink">{fieldErrors.message}</p>
               )}
             </div>
 
@@ -184,7 +184,7 @@ export default function ContactPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.4 }}
-                  className="mt-4 flex items-center justify-center gap-2 text-sm text-wire"
+                  className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-ink"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
@@ -199,7 +199,7 @@ export default function ContactPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.4 }}
-                  className="mt-4 text-center text-sm text-red-400/80"
+                  className="mt-4 text-center text-sm font-semibold text-ink"
                 >
                   Something went wrong. Please try again or email me directly.
                 </motion.p>
