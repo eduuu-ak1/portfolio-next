@@ -52,8 +52,8 @@ export default function Hero() {
             Replacing manual busywork with{" "}
             <span className="bg-ink px-1.5 py-0.5 text-bg">
               AI automation
-            </span>{" "}
-            for small and service-based businesses
+            </span>
+            .
           </motion.h1>
 
           <motion.p

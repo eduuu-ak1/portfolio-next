@@ -13,6 +13,7 @@ const ROTATE_SPEED = 0.045;
 const PULSE_SPEED = 0.25;
 const POINTER_TILT = 0.35;
 const POINTER_EASE = 0.06;
+const EDGE_RADIUS = 0.012;
 
 const NODES = [
   { pos: [-1.9, 0.6, 0], hot: false },
@@ -92,10 +93,27 @@ function Nodes({ colors }) {
   return (
     <>
       {NODES.map((node, i) => (
-        <mesh key={i} position={node.pos}>
-          <sphereGeometry args={[node.hot ? 0.09 : 0.065, 16, 16]} />
-          <meshBasicMaterial color={node.hot ? colors.signal : colors.wire} />
-        </mesh>
+        <group key={i} position={node.pos}>
+          <mesh>
+            <sphereGeometry args={[node.hot ? 0.09 : 0.065, 20, 20]} />
+            <meshStandardMaterial
+              color={node.hot ? colors.signal : colors.wire}
+              roughness={0.35}
+              metalness={0.15}
+            />
+          </mesh>
+          {node.hot && (
+            <mesh>
+              <sphereGeometry args={[0.17, 16, 16]} />
+              <meshBasicMaterial
+                color={colors.signal}
+                transparent
+                opacity={0.16}
+                depthWrite={false}
+              />
+            </mesh>
+          )}
+        </group>
       ))}
     </>
   );
@@ -105,11 +123,11 @@ function Edges({ colors }) {
   const geometries = useMemo(
     () =>
       EDGES.map(([a, b]) => {
-        const points = [
+        const curve = new THREE.LineCurve3(
           new THREE.Vector3(...NODES[a].pos),
-          new THREE.Vector3(...NODES[b].pos),
-        ];
-        return new THREE.BufferGeometry().setFromPoints(points);
+          new THREE.Vector3(...NODES[b].pos)
+        );
+        return new THREE.TubeGeometry(curve, 1, EDGE_RADIUS, 6, false);
       }),
     []
   );
@@ -117,9 +135,9 @@ function Edges({ colors }) {
   return (
     <>
       {geometries.map((geometry, i) => (
-        <line key={i} geometry={geometry}>
-          <lineBasicMaterial color={colors.wire} transparent opacity={0.5} />
-        </line>
+        <mesh key={i} geometry={geometry}>
+          <meshBasicMaterial color={colors.wire} transparent opacity={0.45} />
+        </mesh>
       ))}
     </>
   );
@@ -143,18 +161,29 @@ function Pulses({ colors, reducedRef }) {
 
     segments.forEach(({ start, end }, i) => {
       progress.current[i] = (progress.current[i] + delta * PULSE_SPEED) % 1;
-      const mesh = refs.current[i];
-      if (mesh) mesh.position.lerpVectors(start, end, progress.current[i]);
+      const group = refs.current[i];
+      if (group) group.position.lerpVectors(start, end, progress.current[i]);
     });
   });
 
   return (
     <>
       {PULSE_EDGES.map((_, i) => (
-        <mesh key={i} ref={(el) => (refs.current[i] = el)}>
-          <sphereGeometry args={[0.045, 12, 12]} />
-          <meshBasicMaterial color={colors.signal} />
-        </mesh>
+        <group key={i} ref={(el) => (refs.current[i] = el)}>
+          <mesh>
+            <sphereGeometry args={[0.045, 14, 14]} />
+            <meshStandardMaterial color={colors.signal} roughness={0.3} metalness={0.2} />
+          </mesh>
+          <mesh>
+            <sphereGeometry args={[0.095, 12, 12]} />
+            <meshBasicMaterial
+              color={colors.signal}
+              transparent
+              opacity={0.22}
+              depthWrite={false}
+            />
+          </mesh>
+        </group>
       ))}
     </>
   );
@@ -197,6 +226,9 @@ export default function AutomationGraph() {
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
     >
+      <ambientLight intensity={0.55} />
+      <directionalLight position={[3, 4, 5]} intensity={1.3} />
+      <directionalLight position={[-3, -2, -2]} intensity={0.35} />
       <Scene colors={colors} />
     </Canvas>
   );

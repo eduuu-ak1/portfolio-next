@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Footer from "./Footer";
+import FavoriteSong from "./FavoriteSong";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -118,6 +119,23 @@ export default function AboutContent() {
             General Santos City, PH
           </div>
         </div>
+      </motion.section>
+
+      {/* Off the clock */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeUp}
+        className="wire-rule flex flex-col px-6 md:px-12 lg:px-20 py-20"
+      >
+        <p className="wire-node mb-3 font-mono text-xs uppercase tracking-[0.2em] text-wire">
+          Off the clock
+        </p>
+        <h2 className="mb-8 max-w-lg font-display text-3xl font-semibold" style={{ textWrap: "balance" }}>
+          What&apos;s on repeat while I build.
+        </h2>
+        <FavoriteSong />
       </motion.section>
 
       {/* Closing CTA */}
