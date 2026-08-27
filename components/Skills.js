@@ -15,8 +15,8 @@ const SKILL_GROUPS = [
   },
   {
     label: "Full-Stack Delivery",
-    note: "For the dashboard or UI wrapped around it",
-    skills: ["React / Next.js", "Node.js / Express"],
+    note: "For the dashboard, UI, or app wrapped around it",
+    skills: ["React / Next.js", "Node.js / Express", "React Native / Expo"],
   },
 ];
 

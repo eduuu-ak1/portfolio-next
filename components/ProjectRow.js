@@ -10,6 +10,7 @@ export default function ProjectRow({
   tools,
   image,
   projectUrl,
+  comingSoon = false,
   reverse = false,
 }) {
   const textVariants = {
@@ -79,13 +80,22 @@ export default function ProjectRow({
           variants={imageVariants}
           className={`relative ${reverse ? "md:order-1" : "md:order-2"}`}
         >
-          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-line bg-bg-alt shadow-2xl">
-            <img
-              src={image}
-              alt={`${title} — screenshot`}
-              className="h-full w-full object-cover"
-            />
-          </div>
+          {comingSoon ? (
+            <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-line bg-bg-alt text-center">
+              <span className="h-2 w-2 rounded-full bg-wire" />
+              <p className="font-mono text-xs uppercase tracking-wide text-ink-faint">
+                Screenshot coming soon
+              </p>
+            </div>
+          ) : (
+            <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-line bg-bg-alt shadow-2xl">
+              <img
+                src={image}
+                alt={`${title} — screenshot`}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
 
           {projectUrl && (
             <a

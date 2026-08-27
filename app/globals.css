@@ -1,17 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0B0D12;
-  --bg-alt: #151920;
-  --bg-alt-2: #1B2029;
+  --bg: #0A0E27;
+  --bg-alt: #141826;
+  --bg-alt-2: #1B2130;
   --ink: #EDEFF3;
-  --ink-soft: #838A99;
-  --ink-faint: #5B6170;
-  --accent: #FF6A3D;
-  --accent-soft: rgba(255, 106, 61, 0.14);
-  --wire: #45E0B8;
-  --wire-soft: rgba(69, 224, 184, 0.14);
-  --line: #262C38;
+  --ink-soft: #8890A0;
+  --ink-faint: #565D6D;
+  --accent: #E8622C;
+  --accent-tint: #F29C7A;
+  --accent-soft: rgba(232, 98, 44, 0.14);
+  --wire: #2FBF9F;
+  --wire-tint: #82F2D9;
+  --wire-soft: rgba(47, 191, 159, 0.14);
+  --line: #242A3A;
 }
 
 @theme inline {
@@ -22,13 +24,15 @@
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
   --color-accent: var(--accent);
+  --color-accent-tint: var(--accent-tint);
   --color-accent-soft: var(--accent-soft);
   --color-wire: var(--wire);
+  --color-wire-tint: var(--wire-tint);
   --color-wire-soft: var(--wire-soft);
   --color-line: var(--line);
-  --font-display: "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
+  --font-display: "JetBrains Mono", "SFMono-Regular", ui-monospace, monospace;
   --font-body: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", ui-monospace, monospace;
 }
 
 * {
@@ -41,8 +45,8 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   background-image:
-    radial-gradient(ellipse 900px 500px at 12% -10%, rgba(255, 106, 61, 0.07), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 100% 15%, rgba(69, 224, 184, 0.05), transparent 60%);
+    radial-gradient(ellipse 900px 500px at 12% -10%, rgba(232, 98, 44, 0.07), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 15%, rgba(47, 191, 159, 0.06), transparent 60%);
   background-attachment: fixed;
 }
 
@@ -93,7 +97,7 @@ body {
   height: 7px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 10px 1px rgba(255, 106, 61, 0.6);
+  box-shadow: 0 0 10px 1px rgba(232, 98, 44, 0.6);
 }
 
 @media (prefers-reduced-motion: reduce) {
