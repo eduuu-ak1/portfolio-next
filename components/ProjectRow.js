@@ -12,6 +12,7 @@ export default function ProjectRow({
   projectUrl,
   comingSoon = false,
   mobile = false,
+  imageAspect = "aspect-9/19.5",
   reverse = false,
 }) {
   const textVariants = {
@@ -83,7 +84,7 @@ export default function ProjectRow({
         >
           {mobile ? (
             <div className="mx-auto w-full max-w-55 overflow-hidden rounded-[2.25rem] border-[6px] border-line bg-bg-alt shadow-2xl">
-              <div className="relative aspect-9/19.5 w-full">
+              <div className={`relative ${imageAspect} w-full`}>
                 <span className="absolute left-1/2 top-2 z-10 h-1.5 w-14 -translate-x-1/2 rounded-full bg-line" />
                 {comingSoon ? (
                   <div className="flex h-full w-full flex-col items-center justify-center gap-3 px-4 text-center">
