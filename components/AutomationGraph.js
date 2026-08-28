@@ -5,24 +5,26 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 const COLORS = {
-  light: { wire: "#6B6B6B", signal: "#000000" },
-  dark: { wire: "#8A8A8A", signal: "#FFFFFF" },
+  light: { wire: "#6B6B6B", signal: "#000000", moon: "#8A8A8A" },
+  dark: { wire: "#8A8A8A", signal: "#FFFFFF", moon: "#5A5A5A" },
 };
 
 const ROTATE_SPEED = 0.045;
-const PULSE_SPEED = 0.25;
+const MOON_SPIN_SPEED = 0.02;
+const PULSE_SPEED = 0.22;
 const POINTER_TILT = 0.35;
 const POINTER_EASE = 0.06;
-const EDGE_RADIUS = 0.012;
+const EDGE_RADIUS = 0.011;
+const MOON_RADIUS = 0.85;
 
 const NODES = [
-  { pos: [-1.9, 0.6, 0], hot: false },
-  { pos: [-0.7, 1.3, 0.4], hot: false },
-  { pos: [0.4, 0.4, -0.3], hot: true },
-  { pos: [1.8, 0.9, 0.2], hot: false },
-  { pos: [-1.1, -0.9, 0.5], hot: false },
-  { pos: [0.2, -1.4, -0.2], hot: false },
-  { pos: [1.5, -0.6, 0.3], hot: false },
+  { pos: [1.85, 0.55, 0.3], hot: false },
+  { pos: [0.65, 1.55, 0.75], hot: false },
+  { pos: [0.2, 0.35, 1.95], hot: true },
+  { pos: [-1.55, 0.95, -0.85], hot: false },
+  { pos: [-1.75, -0.65, 0.55], hot: false },
+  { pos: [-0.35, -1.85, -0.45], hot: false },
+  { pos: [1.45, -1.15, 0.65], hot: false },
 ];
 
 const EDGES = [
@@ -89,6 +91,50 @@ function usePointerTarget(reducedRef) {
   return targetRef;
 }
 
+// Layered sine noise: cheap, deterministic, no texture or noise library needed.
+function terrainNoise(x, y, z) {
+  let n = Math.sin(x * 6.0 + y * 3.1 + z * 4.7) * 0.5;
+  n += Math.sin(x * 11.3 - y * 7.9 + z * 5.3) * 0.3;
+  n += Math.sin(x * 19.7 + y * 14.1 - z * 9.8) * 0.2;
+  return n;
+}
+
+function useMoonGeometry(radius) {
+  return useMemo(() => {
+    const geometry = new THREE.IcosahedronGeometry(radius, 2);
+    const position = geometry.attributes.position;
+    const vertex = new THREE.Vector3();
+    const direction = new THREE.Vector3();
+
+    for (let i = 0; i < position.count; i++) {
+      vertex.fromBufferAttribute(position, i);
+      direction.copy(vertex).normalize();
+      const bump = terrainNoise(direction.x * 3, direction.y * 3, direction.z * 3) * (radius * 0.045);
+      vertex.addScaledVector(direction, bump);
+      position.setXYZ(i, vertex.x, vertex.y, vertex.z);
+    }
+
+    geometry.computeVertexNormals();
+    return geometry;
+  }, [radius]);
+}
+
+function Moon({ colors, reducedRef }) {
+  const meshRef = useRef(null);
+  const geometry = useMoonGeometry(MOON_RADIUS);
+
+  useFrame((_state, delta) => {
+    if (reducedRef.current || !meshRef.current) return;
+    meshRef.current.rotation.y += delta * MOON_SPIN_SPEED;
+  });
+
+  return (
+    <mesh ref={meshRef} geometry={geometry}>
+      <meshStandardMaterial color={colors.moon} roughness={0.92} metalness={0.02} flatShading />
+    </mesh>
+  );
+}
+
 function Nodes({ colors }) {
   return (
     <>
@@ -136,7 +182,7 @@ function Edges({ colors }) {
     <>
       {geometries.map((geometry, i) => (
         <mesh key={i} geometry={geometry}>
-          <meshBasicMaterial color={colors.wire} transparent opacity={0.45} />
+          <meshBasicMaterial color={colors.wire} transparent opacity={0.4} />
         </mesh>
       ))}
     </>
@@ -209,6 +255,7 @@ function Scene({ colors }) {
 
   return (
     <group ref={groupRef}>
+      <Moon colors={colors} reducedRef={reducedRef} />
       <Nodes colors={colors} />
       <Edges colors={colors} />
       <Pulses colors={colors} reducedRef={reducedRef} />
@@ -222,13 +269,13 @@ export default function AutomationGraph() {
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 5.5], fov: 45 }}
+      camera={{ position: [0, 0, 6.2], fov: 45 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
     >
-      <ambientLight intensity={0.55} />
+      <ambientLight intensity={0.5} />
       <directionalLight position={[3, 4, 5]} intensity={1.3} />
-      <directionalLight position={[-3, -2, -2]} intensity={0.35} />
+      <directionalLight position={[-3, -2, -2]} intensity={0.3} />
       <Scene colors={colors} />
     </Canvas>
   );

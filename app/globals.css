@@ -83,6 +83,15 @@ body {
   outline-offset: 3px;
 }
 
+@keyframes preloader-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 /* ---------- wire connector rule ---------- */
 .wire-rule {
   position: relative;

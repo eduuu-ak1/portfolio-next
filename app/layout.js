@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
+import Preloader from "@/components/Preloader";
 
 export const metadata = {
   title: "Edu Nitre — AI Automation for Small Business",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
       </head>
       <body className="min-h-screen bg-bg text-ink antialiased">
+        <Preloader />
         <SmoothScroll>
           <Navbar />
           {children}
