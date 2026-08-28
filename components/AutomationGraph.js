@@ -263,7 +263,7 @@ function Scene({ colors }) {
   );
 }
 
-export default function AutomationGraph() {
+export default function AutomationGraph({ active = true }) {
   const theme = useTheme();
   const colors = COLORS[theme];
 
@@ -272,6 +272,7 @@ export default function AutomationGraph() {
       camera={{ position: [0, 0, 6.2], fov: 45 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
+      frameloop={active ? "always" : "never"}
     >
       <ambientLight intensity={0.5} />
       <directionalLight position={[3, 4, 5]} intensity={1.3} />

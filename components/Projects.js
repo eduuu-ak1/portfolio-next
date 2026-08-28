@@ -5,19 +5,6 @@ import ProjectRow from "./ProjectRow";
 
 const PROJECTS = [
   {
-    title: "Turning a Video or PDF Into Study-Ready Notes",
-    problem:
-      "Long lecture videos and dense PDFs take real time to sit through before you get anything usable out of them.",
-    bullets: [
-      "Upload a video or PDF up to 200MB and Gemini reads or watches the whole thing",
-      "Generates structured notes: headings by topic, bullet takeaways, definitions, and action items",
-      "Built solo end-to-end with React, Node, and the Gemini API — live in production",
-    ],
-    tools: ["React", "Node.js / Express", "Google Gemini API", "Docker"],
-    image: "/projects/notely.png",
-    projectUrl: "https://notely-edu.vercel.app/",
-  },
-  {
     title: "Cutting Support Response Time From Hours to Seconds",
     problem:
       "Every inbound email and web inquiry needed a human to read it, decide what it was, and answer — even the easy ones.",
@@ -30,6 +17,30 @@ const PROJECTS = [
     image: "/projects/email-support-automation.png",
   },
   {
+    title: "Turning Cold Leads Into Booked Calls, Unattended",
+    problem:
+      "Leads were qualified by hand and booked over email back-and-forth — the slower that took, the more leads went cold.",
+    bullets: [
+      "n8n workflow captures every incoming lead the moment it arrives and runs it through automated qualification rules",
+      "Qualified leads book straight into the calendar through Cal.com, no scheduling emails",
+      "Cuts a multi-step manual intake process down to one pipeline that runs itself",
+    ],
+    tools: ["n8n", "Webhook APIs", "Cal.com", "CRM Automation"],
+    image: "/projects/lead-qualification-automation.png",
+  },
+  {
+    title: "Keeping Leads Warm When Nobody's Watching the Pipeline",
+    problem:
+      "Follow-up only happened if someone remembered to send it — most leads never got a second touch.",
+    bullets: [
+      "Built a multi-step follow-up sequence that triggers automatically on first contact",
+      "Tracks every lead's timing and engagement in Google Sheets, no spreadsheet upkeep required",
+      "Runs on schedule with zero manual intervention, so no lead goes quiet by accident",
+    ],
+    tools: ["n8n", "Google Sheets", "Workflow Automation"],
+    image: "/projects/followup-automation.png",
+  },
+  {
     title: "MOTIV8",
     problem: "Case study in progress — full write-up coming soon.",
     bullets: [
@@ -38,6 +49,20 @@ const PROJECTS = [
     ],
     tools: ["React Native", "Expo"],
     comingSoon: true,
+    mobile: true,
+  },
+  {
+    title: "Turning a Video or PDF Into Study-Ready Notes",
+    problem:
+      "Long lecture videos and dense PDFs take real time to sit through before you get anything usable out of them.",
+    bullets: [
+      "Upload a video or PDF up to 200MB and Gemini reads or watches the whole thing",
+      "Generates structured notes: headings by topic, bullet takeaways, definitions, and action items",
+      "Built solo end-to-end with React, Node, and the Gemini API — live in production",
+    ],
+    tools: ["React", "Node.js / Express", "Google Gemini API", "Docker"],
+    image: "/projects/notely.png",
+    projectUrl: "https://notely-edu.vercel.app/",
   },
 ];
 

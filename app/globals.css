@@ -83,12 +83,12 @@ body {
   outline-offset: 3px;
 }
 
-@keyframes preloader-fill {
-  from {
-    transform: scaleX(0);
+@keyframes preloader-sweep {
+  0% {
+    transform: translateX(-120%);
   }
-  to {
-    transform: scaleX(1);
+  100% {
+    transform: translateX(420%);
   }
 }
 

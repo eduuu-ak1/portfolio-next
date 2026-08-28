@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import AutomationGraphCanvas from "./AutomationGraphCanvas";
 
 const SKILL_GROUPS = [
   {
@@ -44,12 +45,20 @@ export default function Skills() {
       variants={fadeUp}
       className="wire-rule scroll-mt-24 px-6 py-24 md:px-12 lg:px-20"
     >
-      <p className="wire-node mb-3 font-mono text-xs uppercase tracking-[0.2em] text-wire">
-        What I bring
-      </p>
-      <h2 className="max-w-xl font-display text-3xl font-semibold md:text-5xl" style={{ textWrap: "balance" }}>
-        The stack behind it.
-      </h2>
+      <div className="flex items-center justify-between gap-8">
+        <div>
+          <p className="wire-node mb-3 font-mono text-xs uppercase tracking-[0.2em] text-wire">
+            What I bring
+          </p>
+          <h2 className="max-w-xl font-display text-3xl font-semibold md:text-5xl" style={{ textWrap: "balance" }}>
+            The stack behind it.
+          </h2>
+        </div>
+
+        <div className="hidden w-40 shrink-0 md:block" aria-hidden="true">
+          <AutomationGraphCanvas />
+        </div>
+      </div>
 
       <motion.div
         variants={container}

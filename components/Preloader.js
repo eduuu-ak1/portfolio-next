@@ -40,8 +40,8 @@ export default function Preloader() {
       <p aria-hidden="true" className="font-display text-2xl font-semibold tracking-tight text-ink">
         Edu<span className="animate-pulse">_</span>
       </p>
-      <div aria-hidden="true" className="mt-6 h-px w-24 overflow-hidden bg-line">
-        <div className="h-full w-full origin-left scale-x-0 bg-ink animate-[preloader-fill_0.9s_ease-out_forwards]" />
+      <div aria-hidden="true" className="mt-6 h-0.75 w-24 overflow-hidden rounded-full bg-line">
+        <div className="h-full w-1/3 rounded-full bg-ink animate-[preloader-sweep_1.1s_ease-in-out_infinite]" />
       </div>
     </div>
   );
