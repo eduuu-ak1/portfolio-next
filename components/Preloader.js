@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 const MIN_DISPLAY_MS = 900;
 const MAX_DISPLAY_MS = 2500;
 const FADE_MS = 500;
+const PIPELINE_CYCLE_S = 1.4;
+const NODE_COUNT = 4;
+const STEP_DELAY_S = PIPELINE_CYCLE_S / (NODE_COUNT + 1);
 
 export default function Preloader() {
   const [visible, setVisible] = useState(true);
@@ -40,8 +43,21 @@ export default function Preloader() {
       <p aria-hidden="true" className="font-display text-2xl font-semibold tracking-tight text-ink">
         Edu<span className="animate-pulse">_</span>
       </p>
-      <div aria-hidden="true" className="mt-6 h-0.75 w-24 overflow-hidden rounded-full bg-line">
-        <div className="h-full w-1/3 rounded-full bg-ink animate-[preloader-sweep_1.1s_ease-in-out_infinite]" />
+      <div aria-hidden="true" className="mt-7 flex items-center">
+        {Array.from({ length: NODE_COUNT }).map((_, i) => (
+          <span key={i} className="flex items-center">
+            <span
+              className="h-2 w-2 rounded-full bg-line animate-[preloader-node_1.4s_ease-in-out_infinite]"
+              style={{ animationDelay: `${i * STEP_DELAY_S}s` }}
+            />
+            {i < NODE_COUNT - 1 && (
+              <span
+                className="h-px w-6 bg-line animate-[preloader-line_1.4s_ease-in-out_infinite]"
+                style={{ animationDelay: `${(i + 0.5) * STEP_DELAY_S}s` }}
+              />
+            )}
+          </span>
+        ))}
       </div>
     </div>
   );

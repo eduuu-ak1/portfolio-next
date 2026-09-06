@@ -41,18 +41,6 @@ const PROJECTS = [
     image: "/projects/followup-automation.png",
   },
   {
-    title: "MOTIV8",
-    problem: "Case study in progress — full write-up coming soon.",
-    bullets: [
-      "A React Native habit tracker, built with Expo",
-      "Problem statement and results to follow",
-    ],
-    tools: ["React Native", "Expo"],
-    image: "/projects/motiv8.png",
-    mobile: true,
-    imageAspect: "aspect-[484/740]",
-  },
-  {
     title: "Turning a Video or PDF Into Study-Ready Notes",
     problem:
       "Long lecture videos and dense PDFs take real time to sit through before you get anything usable out of them.",

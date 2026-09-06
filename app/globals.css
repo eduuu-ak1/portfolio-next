@@ -83,12 +83,30 @@ body {
   outline-offset: 3px;
 }
 
-@keyframes preloader-sweep {
-  0% {
-    transform: translateX(-120%);
+@keyframes preloader-node {
+  0%, 100% {
+    background: var(--line);
+    transform: scale(1);
   }
-  100% {
-    transform: translateX(420%);
+  15% {
+    background: var(--ink);
+    transform: scale(1.4);
+  }
+  30% {
+    background: var(--line);
+    transform: scale(1);
+  }
+}
+
+@keyframes preloader-line {
+  0%, 100% {
+    background: var(--line);
+  }
+  15% {
+    background: var(--ink);
+  }
+  30% {
+    background: var(--line);
   }
 }
 
