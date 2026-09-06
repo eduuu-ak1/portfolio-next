@@ -14,21 +14,17 @@ const NAV_LINKS = [
 
 const NAVBAR_OFFSET = -96;
 
+function routeKeyForPath(pathname) {
+  if (pathname === "/about") return "about";
+  if (pathname === "/contact") return "contact";
+  return "home";
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [activeKey, setActiveKey] = useState("home");
+  const [sectionKey, setSectionKey] = useState("home");
   const pathname = usePathname();
-
-  // Keep active state in sync with the current route for page-based links
-  useEffect(() => {
-    if (pathname === "/about") {
-      setActiveKey("about");
-    } else if (pathname === "/contact") {
-      setActiveKey("contact");
-    } else if (pathname === "/") {
-      setActiveKey((prev) => (prev === "about" || prev === "contact" ? "home" : prev));
-    }
-  }, [pathname]);
+  const activeKey = pathname === "/" ? sectionKey : routeKeyForPath(pathname);
 
   // Track which homepage section is in view
   useEffect(() => {
@@ -46,7 +42,7 @@ export default function Navbar() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const key = entry.target.id === "hero" ? "home" : entry.target.id;
-            setActiveKey(key);
+            setSectionKey(key);
           }
         });
       },
@@ -143,14 +139,21 @@ export default function Navbar() {
 
       <div className="flex items-center gap-2 md:hidden">
         <ThemeToggle />
-        <button type="button" aria-label="Toggle menu" className="flex flex-col gap-1.5" onClick={() => setOpen((v) => !v)}>
+        <button
+          type="button"
+          aria-label="Toggle menu"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          className="flex h-11 w-11 flex-col items-center justify-center gap-1.5"
+          onClick={() => setOpen((v) => !v)}
+        >
           <span className="h-0.5 w-6 bg-ink" />
           <span className="h-0.5 w-6 bg-ink" />
         </button>
       </div>
 
       {open && (
-        <div className="absolute left-0 right-0 top-full border-t border-line bg-bg/95 px-6 py-4 backdrop-blur-md md:hidden">
+        <div id="mobile-menu" className="absolute left-0 right-0 top-full border-t border-line bg-bg/95 px-6 py-4 backdrop-blur-md md:hidden">
           <ul className="flex flex-col gap-4">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>

@@ -28,7 +28,7 @@ export default function ThemeToggle({ className = "" }) {
   }
 
   if (theme === null) {
-    return <span className={`inline-block h-9 w-9 ${className}`} aria-hidden="true" />;
+    return <span className={`inline-block h-11 w-11 ${className}`} aria-hidden="true" />;
   }
 
   return (
@@ -36,7 +36,7 @@ export default function ThemeToggle({ className = "" }) {
       type="button"
       onClick={toggleTheme}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-ink-soft transition-colors hover:border-ink hover:text-ink ${className}`}
+      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-ink-soft transition-colors hover:border-ink hover:text-ink ${className}`}
     >
       {theme === "dark" ? <SunIcon /> : <MoonIcon />}
     </button>

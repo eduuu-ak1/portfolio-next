@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import Footer from "./Footer";
 import FavoriteSong from "./FavoriteSong";
@@ -102,16 +103,20 @@ export default function AboutContent() {
         <div className="relative mx-auto w-full max-w-xs">
           <div className="absolute inset-0 -rotate-3 rounded-2xl border border-accent/40 bg-accent/5" />
 
-          <div className="group relative aspect-[4/5] w-full rotate-2 overflow-hidden rounded-2xl border border-line bg-bg-alt shadow-2xl transition-transform duration-300 hover:rotate-0">
-            <img
+          <div className="group relative aspect-4/5 w-full rotate-2 overflow-hidden rounded-2xl border border-line bg-bg-alt shadow-2xl transition-transform duration-300 hover:rotate-0">
+            <Image
               src="/aboutme.png"
               alt="Edu Nitre"
-              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+              fill
+              sizes="(max-width: 768px) 100vw, 320px"
+              className="object-cover transition-opacity duration-500 group-hover:opacity-0"
             />
-            <img
+            <Image
               src="/profile.png"
               alt="Edu Nitre"
-              className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+              fill
+              sizes="(max-width: 768px) 100vw, 320px"
+              className="object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
             />
           </div>
 

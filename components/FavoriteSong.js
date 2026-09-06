@@ -1,12 +1,16 @@
+import Image from "next/image";
+
 export default function FavoriteSong() {
   return (
     <div className="relative flex h-72 w-full max-w-md flex-col justify-end overflow-hidden rounded-2xl border border-line p-6">
-      <img
+      <Image
         src="/cinderella-poster.png"
         alt="Cinderella by Mac Miller and Ty Dolla $ign"
-        className="absolute inset-0 h-full w-full object-cover"
+        fill
+        sizes="(max-width: 768px) 100vw, 448px"
+        className="object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
 
       <div className="relative">
         <span className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-white/30 bg-black/40 px-2.5 py-1 font-mono text-[10px] uppercase text-white backdrop-blur">

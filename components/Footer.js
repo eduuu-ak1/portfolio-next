@@ -7,8 +7,8 @@ export default function Footer() {
         <div className="mb-10 max-w-sm md:mb-0">
           <p className="font-display text-xl font-semibold text-ink">Edu Nitre</p>
           <p className="mt-3 text-base text-ink-soft">
-            AI automation and full-stack systems for small and service-based
-            businesses &mdash; built to run without you watching them.
+            AI automation and full-stack systems &mdash; built to run without
+            you watching them.
           </p>
         </div>
 

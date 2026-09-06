@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../../components/Footer";
+import AutomationGraphCanvas from "../../components/AutomationGraphCanvas";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -87,22 +88,34 @@ export default function ContactPage() {
   return (
     <main>
       <section className="flex min-h-[70vh] flex-col justify-center px-6 md:px-12 lg:px-20 py-32">
-        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="max-w-2xl">
-          <p className="wire-node mb-4 font-mono text-xs uppercase tracking-[0.2em] text-wire">
-            Get in touch
-          </p>
-          <h1
-            className="font-display text-[clamp(2rem,5vw,3.4rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-ink"
-            style={{ textWrap: "balance" }}
+        <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-[1.25fr_1fr] lg:gap-8">
+          <motion.div initial="hidden" animate="visible" variants={fadeUp} className="max-w-2xl">
+            <p className="wire-node mb-4 font-mono text-xs uppercase tracking-[0.2em] text-wire">
+              Get in touch
+            </p>
+            <h1
+              className="font-display text-[clamp(2rem,5vw,3.4rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-ink"
+              style={{ textWrap: "balance" }}
+            >
+              What&apos;s still being done by hand?
+            </h1>
+            <p className="mt-5 max-w-md text-lg text-ink-soft">
+              Tell me what it is and where it slows things down &mdash; I&apos;ll
+              reply with whether it&apos;s worth automating and what that would
+              take.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            className="mx-auto hidden w-full max-w-80 lg:block"
+            aria-hidden="true"
           >
-            What&apos;s still being done by hand?
-          </h1>
-          <p className="mt-5 max-w-md text-lg text-ink-soft">
-            Tell me what it is and where it slows things down &mdash; I&apos;ll
-            reply with whether it&apos;s worth automating and what that would
-            take.
-          </p>
-        </motion.div>
+            <AutomationGraphCanvas />
+          </motion.div>
+        </div>
       </section>
 
       <section className="wire-rule flex flex-col items-center px-6 md:px-12 lg:px-20 py-24">

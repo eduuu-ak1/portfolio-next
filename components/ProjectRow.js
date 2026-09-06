@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function ProjectRow({
   index,
@@ -94,10 +95,12 @@ export default function ProjectRow({
                     </p>
                   </div>
                 ) : (
-                  <img
+                  <Image
                     src={image}
                     alt={`${title} — screenshot`}
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 60vw, 220px"
+                    className="object-cover"
                   />
                 )}
               </div>
@@ -111,10 +114,12 @@ export default function ProjectRow({
             </div>
           ) : (
             <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-line bg-bg-alt shadow-2xl">
-              <img
+              <Image
                 src={image}
                 alt={`${title} — screenshot`}
-                className="h-full w-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
               />
             </div>
           )}
